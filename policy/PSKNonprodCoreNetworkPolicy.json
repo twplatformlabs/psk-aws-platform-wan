@@ -1,0 +1,111 @@
+{
+    "version": "2021.12",
+
+    "core-network-configuration": {
+      "asn-ranges": [
+        "64512-64520"
+      ],
+      "vpn-ecmp-support": false,
+      "edge-locations": [
+        {
+          "location": "eu-west-3",
+          "asn": 64512
+        },
+        {
+          "location": "us-east-2",
+          "asn": 64513
+        }
+      ]
+    },
+
+    "segments": [
+      {
+        "name": "sbxmapi",
+        "edge-locations": [
+          "us-east-2"
+        ],
+        "isolate-attachments": false,
+        "require-attachment-acceptance": false
+      },
+      {
+        "name": "sbxdev",
+        "edge-locations": [
+          "us-east-2",
+          "eu-west-3"
+        ],
+        "isolate-attachments": false,
+        "require-attachment-acceptance": false
+      },
+      {
+        "name": "sbxqa",
+        "edge-locations": [
+          "us-east-2",
+          "eu-west-3"
+        ],
+        "isolate-attachments": false,
+        "require-attachment-acceptance": false
+      }
+    ],
+
+    "attachment-policies": [
+      {
+        "rule-number": 100,
+        "action": {
+          "association-method": "constant",
+          "segment": "sbxmapi"
+        },
+        "conditions": [
+          {
+            "type": "tag-value",
+            "operator": "equals",
+            "key": "segment",
+            "value": "sbxmapi"
+          }
+        ],
+        "condition-logic": "or"
+      },
+
+      {
+        "rule-number": 200,
+        "action": {
+          "association-method": "constant",
+          "segment": "sbxdev"
+        },
+        "conditions": [
+          {
+            "type": "tag-value",
+            "operator": "equals",
+            "key": "segment",
+            "value": "sbxdev"
+          }
+        ],
+        "condition-logic": "or"
+      },
+      
+      {
+        "rule-number": 300,
+        "action": {
+          "association-method": "constant",
+          "segment": "sbxqa"
+        },
+        "conditions": [
+          {
+            "type": "tag-value",
+            "operator": "equals",
+            "key": "segment",
+            "value": "sbxqa"
+          }
+        ],
+        "condition-logic": "or"
+      }
+    ],
+
+    "segment-actions": [
+      {
+        "action": "share",
+        "mode": "attachment-route",
+        "segment": "sbxmapi",
+        "share-with": "*"
+      }
+    ]
+  }

@@ -1,0 +1,3 @@
+source.env
+*.terraform*
+nonprod.auto.tfvars.json

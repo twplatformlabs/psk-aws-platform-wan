@@ -8,5 +8,5 @@
 </div>
 
 Global platform network dependencies
-- IPAM
 - Cloud WAN
+- ...
